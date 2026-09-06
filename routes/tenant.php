@@ -7,6 +7,7 @@ use Stancl\Tenancy\Middleware\InitializeTenancyByDomain;
 use Stancl\Tenancy\Middleware\PreventAccessFromCentralDomains;
 use App\Http\Controllers\RoomController;
 use App\Http\Controllers\BookingController;
+use App\Http\Controllers\PaymentController;
 
 Route::middleware([
     'api',
@@ -14,11 +15,11 @@ Route::middleware([
     PreventAccessFromCentralDomains::class,
 ])->prefix('api')->group(function () {
 
-    // مسارات الغرف
     Route::get('/rooms', [RoomController::class, 'index']);
 
-    // مسارات الحجوزات
     Route::get('/bookings', [BookingController::class, 'index']);
     Route::post('/bookings', [BookingController::class, 'store']);
+
+    Route::post('/payments', [PaymentController::class, 'store']);
 
 });
