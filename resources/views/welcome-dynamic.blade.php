@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SaaS Platform & Hotel Management</title>
+    <title>SaaS Platform & Blog</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
@@ -17,25 +17,18 @@
                 <a href="{{ $item['url'] }}" class="hover:text-white transition">{{ $item['name'] }}</a>
             @endforeach
         </nav>
-        <div class="flex items-center space-x-3">
-            <a href="/deploy" class="bg-emerald-600 hover:bg-emerald-500 text-white px-4 py-2 rounded-xl text-xs font-semibold">Deploy Hotel</a>
-            <a href="/admin/login" class="bg-indigo-600 hover:bg-indigo-500 text-white px-4 py-2 rounded-xl text-xs font-semibold">Admin Login</a>
-        </div>
+        <a href="/admin/login" class="bg-indigo-600 hover:bg-indigo-500 text-white px-4 py-2 rounded-xl text-xs font-semibold">Admin Login</a>
     </header>
 
-    <!-- Main Content (الواجهة الأصلية + المقالات المنشورة) -->
-    <main class="max-w-6xl w-full mx-auto p-6 md:p-10 space-y-16 my-auto">
+    <!-- Main Content & Latest Articles -->
+    <main class="max-w-6xl w-full mx-auto p-6 md:p-10 space-y-12 my-auto">
         <div class="text-center space-y-4">
-            <h1 class="text-4xl md:text-5xl font-black">Multi-Tenant SaaS & Hotel Ecosystem</h1>
-            <p class="text-slate-400 max-w-xl mx-auto text-sm">Manage your platform, deploy instant hotels, and publish professional articles linked directly from the super admin dashboard.</p>
+            <h1 class="text-4xl md:text-5xl font-black">Welcome to Our Modern Platform</h1>
+            <p class="text-slate-400 max-w-xl mx-auto text-sm">Explore our latest articles, insights, and tools managed directly from the admin dashboard.</p>
         </div>
 
-        <!-- قسم المقالات المنشورة حديثاً (تظهر فوراً في الرئيسية) -->
         <div class="space-y-6">
-            <h2 class="text-2xl font-bold border-b border-slate-800 pb-3 flex justify-between items-center">
-                <span>Latest Articles & News</span>
-                <a href="/blog" class="text-xs text-indigo-400 hover:underline">View All Blog →</a>
-            </h2>
+            <h2 class="text-2xl font-bold border-b border-slate-800 pb-3">Latest Articles</h2>
             <div class="grid md:grid-cols-3 gap-6">
                 @foreach($data['articles'] as $article)
                     <div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden shadow-xl flex flex-col">
@@ -48,7 +41,7 @@
                             </div>
                             <div class="text-xs text-slate-500 pt-4 border-t border-slate-800 flex justify-between">
                                 <span>{{ $article['date'] }}</span>
-                                <span class="text-emerald-400 font-semibold">Live & Active</span>
+                                <span class="text-emerald-400 font-semibold">SEO Optimized</span>
                             </div>
                         </div>
                     </div>
@@ -57,7 +50,7 @@
         </div>
     </main>
 
-    <!-- Footer والروابط الديناميكية -->
+    <!-- Footer والروابط المفيدة الديناميكية -->
     <footer class="bg-slate-900 border-t border-slate-800 py-8 px-6 text-center text-xs text-slate-400 space-y-4">
         <div class="flex flex-wrap justify-center gap-6 font-semibold">
             @foreach($data['footer_links'] as $link)
