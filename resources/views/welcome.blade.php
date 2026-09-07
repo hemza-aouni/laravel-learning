@@ -7,45 +7,151 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-<body class="bg-slate-950 text-slate-100 font-sans antialiased min-h-screen flex flex-col justify-between">
+<body class="bg-slate-950 text-slate-100 font-sans antialiased min-h-screen flex flex-col">
 
 @include('partials.menu')
 
-<main class="max-w-6xl w-full mx-auto p-6 md:p-10 space-y-16 my-auto">
-    <div class="text-center space-y-4">
-        <h1 class="text-4xl md:text-5xl font-black">Multi-Tenant SaaS & Hotel Ecosystem</h1>
-        <p class="text-slate-400 max-w-xl mx-auto text-sm">Manage your platform, deploy instant hotels, and publish professional articles linked directly from the super admin dashboard.</p>
+<!-- Hero Section -->
+<section class="relative overflow-hidden">
+    <div class="absolute inset-0 bg-gradient-to-br from-slate-950 via-slate-900 to-indigo-950/40"></div>
+    <div class="relative max-w-7xl mx-auto px-6 py-20 md:py-28 grid lg:grid-cols-2 gap-12 items-center">
+        <div class="space-y-8">
+            <div class="inline-flex items-center space-x-2 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-semibold px-3 py-1.5 rounded-full">
+                <span class="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></span>
+                <span>Multi-Tenant SaaS Platform</span>
+            </div>
+            
+            <h1 class="text-4xl md:text-5xl lg:text-6xl font-black leading-tight">
+                Launch Your Hotel<br>
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-rose-500 to-indigo-400">in Minutes</span>
+            </h1>
+            
+            <p class="text-slate-400 text-lg max-w-lg leading-relaxed">
+                The complete multi-tenant ecosystem for modern hotels. Deploy instant booking platforms, manage reservations, and scale your hospitality business effortlessly.
+            </p>
+
+            <div class="flex flex-wrap gap-4">
+                <a href="/deploy" class="bg-rose-600 hover:bg-rose-500 text-white px-8 py-4 rounded-2xl font-bold text-sm transition shadow-xl shadow-rose-600/25 flex items-center space-x-2">
+                    <i class="fa-solid fa-rocket"></i>
+                    <span>Deploy Your Hotel Now</span>
+                </a>
+                <a href="/#features" class="bg-slate-800 hover:bg-slate-700 text-white px-8 py-4 rounded-2xl font-bold text-sm transition border border-slate-700">
+                    Explore Features
+                </a>
+            </div>
+
+            <div class="flex items-center space-x-6 text-sm text-slate-400 pt-4">
+                <div class="flex items-center space-x-2">
+                    <i class="fa-solid fa-check text-emerald-400"></i>
+                    <span>Free 1-day trial</span>
+                </div>
+                <div class="flex items-center space-x-2">
+                    <i class="fa-solid fa-check text-emerald-400"></i>
+                    <span>No credit card</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="relative">
+            <div class="absolute -inset-4 bg-gradient-to-r from-rose-600/20 to-indigo-600/20 rounded-3xl blur-2xl"></div>
+            <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1000&q=80" 
+                 alt="Luxury Hotel" 
+                 class="relative rounded-3xl shadow-2xl border border-slate-800 w-full object-cover aspect-[4/3]">
+        </div>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section id="features" class="max-w-7xl mx-auto px-6 py-20">
+    <div class="text-center mb-14">
+        <h2 class="text-3xl md:text-4xl font-black mb-4">Everything You Need</h2>
+        <p class="text-slate-400 max-w-2xl mx-auto">Powerful tools designed specifically for hotel owners and managers.</p>
     </div>
 
-    <div class="space-y-6">
-        <h2 class="text-2xl font-bold border-b border-slate-800 pb-3 flex justify-between items-center">
-            <span>Latest Articles & News</span>
-            <a href="/blog" class="text-xs text-indigo-400 hover:underline">View All Blog &rarr;</a>
-        </h2>
-        <div class="grid md:grid-cols-3 gap-6">
-            @forelse($latestArticles as $article)
-                <a href="/blog/{{ $article->slug }}" class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden shadow-xl flex flex-col hover:border-indigo-500 transition">
-                    @if($article->image)
-                        <img src="{{ asset($article->image) }}" alt="{{ $article->title }}" class="h-48 w-full object-cover">
-                    @endif
-                    <div class="p-6 space-y-3 flex-1 flex flex-col justify-between">
-                        <div>
-                            @if($article->category)
-                                <span class="bg-indigo-500/10 text-indigo-400 text-xs px-2.5 py-1 rounded-full font-semibold">{{ $article->category->name }}</span>
-                            @endif
-                            <h3 class="font-bold text-lg mt-2 text-white">{{ $article->title }}</h3>
-                            <p class="text-slate-400 text-xs mt-1">{{ $article->excerpt ?? Str::limit(strip_tags($article->content), 80) }}</p>
-                        </div>
-                        <div class="text-xs text-slate-500 pt-4 border-t border-slate-800 flex justify-between">
-                            <span>{{ optional($article->published_at)->format('Y-m-d') }}</span>
-                            <span class="text-emerald-400 font-semibold">Live & Active</span>
-                        </div>
-                    </div>
-                </a>
-            @empty
-                <p class="text-slate-500 text-sm col-span-3 text-center py-10">No articles published yet.</p>
-            @endforelse
+    <div class="grid md:grid-cols-3 gap-8">
+        <div class="bg-slate-900 border border-slate-800 rounded-3xl p-8 hover:border-indigo-500/50 transition group">
+            <div class="w-14 h-14 bg-indigo-500/10 text-indigo-400 rounded-2xl flex items-center justify-center text-2xl mb-6 group-hover:scale-110 transition">
+                <i class="fa-solid fa-building"></i>
+            </div>
+            <h3 class="text-xl font-bold mb-3">Instant Deployment</h3>
+            <p class="text-slate-400 text-sm leading-relaxed">Launch a fully branded hotel website with booking engine in under 60 seconds.</p>
         </div>
+
+        <div class="bg-slate-900 border border-slate-800 rounded-3xl p-8 hover:border-rose-500/50 transition group">
+            <div class="w-14 h-14 bg-rose-500/10 text-rose-400 rounded-2xl flex items-center justify-center text-2xl mb-6 group-hover:scale-110 transition">
+                <i class="fa-solid fa-calendar-check"></i>
+            </div>
+            <h3 class="text-xl font-bold mb-3">Smart Bookings</h3>
+            <p class="text-slate-400 text-sm leading-relaxed">Real-time availability, automatic confirmations, and seamless guest management.</p>
+        </div>
+
+        <div class="bg-slate-900 border border-slate-800 rounded-3xl p-8 hover:border-emerald-500/50 transition group">
+            <div class="w-14 h-14 bg-emerald-500/10 text-emerald-400 rounded-2xl flex items-center justify-center text-2xl mb-6 group-hover:scale-110 transition">
+                <i class="fa-solid fa-chart-line"></i>
+            </div>
+            <h3 class="text-xl font-bold mb-3">Growth Analytics</h3>
+            <p class="text-slate-400 text-sm leading-relaxed">Track revenue, occupancy rates, and guest insights from a single dashboard.</p>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="max-w-7xl mx-auto px-6 py-10">
+    <div class="bg-gradient-to-r from-rose-600 to-indigo-600 rounded-3xl p-10 md:p-14 text-center relative overflow-hidden">
+        <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10"></div>
+        <div class="relative z-10 space-y-6">
+            <h2 class="text-3xl md:text-4xl font-black">Ready to Transform Your Hotel?</h2>
+            <p class="text-white/80 max-w-xl mx-auto">Join hundreds of hotels already using our platform to increase bookings and streamline operations.</p>
+            <a href="/deploy" class="inline-flex items-center space-x-2 bg-white text-slate-900 hover:bg-slate-100 px-8 py-4 rounded-2xl font-bold text-sm transition shadow-xl">
+                <span>Start Your Free Trial</span>
+                <i class="fa-solid fa-arrow-right"></i>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Latest Articles -->
+<main class="max-w-7xl mx-auto px-6 py-20">
+    <div class="flex justify-between items-end mb-10">
+        <div>
+            <h2 class="text-3xl font-black">Latest Articles & News</h2>
+            <p class="text-slate-400 text-sm mt-2">Insights, guides and updates from the hospitality world</p>
+        </div>
+        <a href="/blog" class="text-indigo-400 hover:text-indigo-300 text-sm font-semibold hidden sm:block">
+            View All Blog →
+        </a>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-6">
+        @forelse($latestArticles ?? [] as $article)
+            <a href="/blog/{{ $article->slug }}" class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden shadow-xl flex flex-col hover:border-indigo-500 transition group">
+                @if($article->image)
+                    <img src="{{ asset($article->image) }}" alt="{{ $article->title }}" class="h-48 w-full object-cover group-hover:scale-105 transition duration-500">
+                @else
+                    <div class="h-48 bg-slate-800 flex items-center justify-center text-slate-600">
+                        <i class="fa-solid fa-image text-4xl"></i>
+                    </div>
+                @endif
+                <div class="p-6 space-y-3 flex-1 flex flex-col justify-between">
+                    <div>
+                        @if($article->category)
+                            <span class="bg-indigo-500/10 text-indigo-400 text-xs px-2.5 py-1 rounded-full font-semibold">{{ $article->category->name }}</span>
+                        @endif
+                        <h3 class="font-bold text-lg mt-2 text-white group-hover:text-indigo-300 transition">{{ $article->title }}</h3>
+                        <p class="text-slate-400 text-xs mt-1">{{ $article->excerpt ?? Str::limit(strip_tags($article->content), 80) }}</p>
+                    </div>
+                    <div class="text-xs text-slate-500 pt-4 border-t border-slate-800 flex justify-between">
+                        <span>{{ optional($article->published_at)->format('Y-m-d') }}</span>
+                        <span class="text-emerald-400 font-semibold">Read more</span>
+                    </div>
+                </div>
+            </a>
+        @empty
+            <div class="col-span-3 text-center py-16 bg-slate-900/50 border border-slate-800 rounded-2xl">
+                <i class="fa-solid fa-newspaper text-4xl text-slate-700 mb-4"></i>
+                <p class="text-slate-500">No articles published yet. Check back soon!</p>
+            </div>
+        @endforelse
     </div>
 </main>
 

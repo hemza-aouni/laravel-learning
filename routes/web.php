@@ -105,7 +105,7 @@ Route::get('/admin/dashboard', function () {
 Route::delete('/admin/tenants/{id}', function ($id) {
     if (!session('admin_logged_in')) { return redirect('/admin/login'); }
     Tenant::findOrFail($id)->delete();
-    return back()->with('success', 'Tenant deleted.');
+    return redirect('/admin/dashboard#section-users')->with('success', 'Tenant deleted.');
 });
 
 // -------- Admin: Blog (Categories & Articles) --------
@@ -136,7 +136,7 @@ Route::post('/admin/footer', [SettingController::class, 'updateFooter']);
 // -------- Admin: Payment settings (unchanged) --------
 Route::post('/admin/settings/payment', function (Request $request) {
     if (!session('admin_logged_in')) { return redirect('/admin/login'); }
-    return back()->with('success', 'Gateway settings updated.');
+    return redirect('/admin/dashboard#section-settings')->with('success', 'Gateway settings updated.');
 });
 Route::post('/admin/domains/store', function (Request $request) {
     if (!session('admin_logged_in')) { return redirect('/admin/login'); }

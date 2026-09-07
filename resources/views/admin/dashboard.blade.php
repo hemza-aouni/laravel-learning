@@ -465,5 +465,17 @@
         </div>
 
     </main>
+    <script>
+        // البقاء على نفس التبويب بعد الحفظ أو التحميل
+        document.addEventListener("DOMContentLoaded", function() {
+            const hash = window.location.hash;
+            if (hash) {
+                const tabId = hash.replace("#", "");
+                if (document.getElementById(tabId)) {
+                    switchTab(tabId);
+                }
+            }
+        });
+    </script>
 </body>
 </html>
