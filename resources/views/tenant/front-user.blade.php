@@ -168,6 +168,7 @@
         </form>
     </div>
 
+    
     <!-- ===================== OUR ROOMS ===================== -->
     <section id="rooms" class="max-w-7xl mx-auto px-4 sm:px-6 py-20">
         <div class="text-center mb-12">
@@ -175,91 +176,59 @@
             <p class="text-slate-500 mt-2">Choose the perfect room for your stay</p>
         </div>
 
-        <!-- Desktop Grid / Mobile Horizontal Scroll -->
-        <div class="hidden md:grid md:grid-cols-3 gap-8">
-            <!-- Room 1 -->
-            <a href="#" class="group bg-white rounded-2xl overflow-hidden border border-slate-100 shadow-sm hover:shadow-xl transition duration-300">
-                <div class="overflow-hidden aspect-video">
-                    <img src="https://images.unsplash.com/photo-1631049307264-da0ec9d70304?auto=format&fit=crop&w=800&q=80"
-                         alt="Standard Room"
-                         class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
-                </div>
-                <div class="p-5">
-                    <h3 class="font-bold text-lg text-slate-900">Standard Room</h3>
-                    <p class="text-sm text-slate-500 mt-1">Cozy and comfortable for short stays</p>
-                    <div class="flex items-center justify-between mt-4">
-                        <span class="text-primary font-bold text-lg">$80 <span class="text-sm font-normal text-slate-400">/ night</span></span>
-                        <span class="text-xs bg-slate-100 text-slate-600 px-2.5 py-1 rounded-full">2 Guests</span>
-                    </div>
-                </div>
-            </a>
+        @if(isset($rooms) && $rooms->count() > 0)
+            <!-- Desktop Grid -->
+            <div class="hidden md:grid md:grid-cols-3 gap-8">
+                @foreach($rooms as $room)
+                    <a href="#search" class="group bg-white rounded-2xl overflow-hidden border border-slate-100 shadow-sm hover:shadow-xl transition duration-300">
+                        <div class="overflow-hidden aspect-video">
+                            @if($room->image)
+                                <img src="{{ asset($room->image) }}" alt="{{ $room->name }}"
+                                     class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                            @else
+                                <img src="https://images.unsplash.com/photo-1631049307264-da0ec9d70304?auto=format&fit=crop&w=800&q=80"
+                                     alt="{{ $room->name }}"
+                                     class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                            @endif
+                        </div>
+                        <div class="p-5">
+                            <h3 class="font-bold text-lg text-slate-900">{{ $room->name }}</h3>
+                            <p class="text-sm text-slate-500 mt-1">{{ $room->description ?? ($room->type ?? 'Comfortable stay') }}</p>
+                            <div class="flex items-center justify-between mt-4">
+                                <span class="text-primary font-bold text-lg">${{ number_format($room->price, 0) }} <span class="text-sm font-normal text-slate-400">/ night</span></span>
+                                <span class="text-xs bg-slate-100 text-slate-600 px-2.5 py-1 rounded-full">{{ $room->capacity }} Guests</span>
+                            </div>
+                        </div>
+                    </a>
+                @endforeach
+            </div>
 
-            <!-- Room 2 -->
-            <a href="#" class="group bg-white rounded-2xl overflow-hidden border border-slate-100 shadow-sm hover:shadow-xl transition duration-300">
-                <div class="overflow-hidden aspect-video">
-                    <img src="https://images.unsplash.com/photo-1611892440504-42a792e24d32?auto=format&fit=crop&w=800&q=80"
-                         alt="Deluxe Room"
-                         class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
-                </div>
-                <div class="p-5">
-                    <h3 class="font-bold text-lg text-slate-900">Deluxe Room</h3>
-                    <p class="text-sm text-slate-500 mt-1">Spacious with city or sea view</p>
-                    <div class="flex items-center justify-between mt-4">
-                        <span class="text-primary font-bold text-lg">$120 <span class="text-sm font-normal text-slate-400">/ night</span></span>
-                        <span class="text-xs bg-slate-100 text-slate-600 px-2.5 py-1 rounded-full">3 Guests</span>
-                    </div>
-                </div>
-            </a>
-
-            <!-- Room 3 -->
-            <a href="#" class="group bg-white rounded-2xl overflow-hidden border border-slate-100 shadow-sm hover:shadow-xl transition duration-300">
-                <div class="overflow-hidden aspect-video">
-                    <img src="https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=800&q=80"
-                         alt="Suite Room"
-                         class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
-                </div>
-                <div class="p-5">
-                    <h3 class="font-bold text-lg text-slate-900">Suite Room</h3>
-                    <p class="text-sm text-slate-500 mt-1">Luxury suite with private balcony</p>
-                    <div class="flex items-center justify-between mt-4">
-                        <span class="text-primary font-bold text-lg">$180 <span class="text-sm font-normal text-slate-400">/ night</span></span>
-                        <span class="text-xs bg-slate-100 text-slate-600 px-2.5 py-1 rounded-full">4 Guests</span>
-                    </div>
-                </div>
-            </a>
-        </div>
-
-        <!-- Mobile Horizontal Scroll -->
-        <div class="md:hidden flex overflow-x-auto room-scroll gap-4 pb-4 -mx-4 px-4">
-            <a href="#" class="flex-shrink-0 w-[85%] bg-white rounded-2xl overflow-hidden border border-slate-100 shadow-sm">
-                <div class="aspect-video overflow-hidden">
-                    <img src="https://images.unsplash.com/photo-1631049307264-da0ec9d70304?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover" alt="Standard">
-                </div>
-                <div class="p-4">
-                    <h3 class="font-bold text-slate-900">Standard Room</h3>
-                    <p class="text-primary font-bold mt-1">$80 <span class="text-sm font-normal text-slate-400">/ night</span></p>
-                </div>
-            </a>
-            <a href="#" class="flex-shrink-0 w-[85%] bg-white rounded-2xl overflow-hidden border border-slate-100 shadow-sm">
-                <div class="aspect-video overflow-hidden">
-                    <img src="https://images.unsplash.com/photo-1611892440504-42a792e24d32?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover" alt="Deluxe">
-                </div>
-                <div class="p-4">
-                    <h3 class="font-bold text-slate-900">Deluxe Room</h3>
-                    <p class="text-primary font-bold mt-1">$120 <span class="text-sm font-normal text-slate-400">/ night</span></p>
-                </div>
-            </a>
-            <a href="#" class="flex-shrink-0 w-[85%] bg-white rounded-2xl overflow-hidden border border-slate-100 shadow-sm">
-                <div class="aspect-video overflow-hidden">
-                    <img src="https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover" alt="Suite">
-                </div>
-                <div class="p-4">
-                    <h3 class="font-bold text-slate-900">Suite Room</h3>
-                    <p class="text-primary font-bold mt-1">$180 <span class="text-sm font-normal text-slate-400">/ night</span></p>
-                </div>
-            </a>
-        </div>
+            <!-- Mobile Horizontal Scroll -->
+            <div class="md:hidden flex overflow-x-auto room-scroll gap-4 pb-4 -mx-4 px-4">
+                @foreach($rooms as $room)
+                    <a href="#search" class="flex-shrink-0 w-[85%] bg-white rounded-2xl overflow-hidden border border-slate-100 shadow-sm">
+                        <div class="aspect-video overflow-hidden">
+                            @if($room->image)
+                                <img src="{{ asset($room->image) }}" class="w-full h-full object-cover" alt="{{ $room->name }}">
+                            @else
+                                <img src="https://images.unsplash.com/photo-1631049307264-da0ec9d70304?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover" alt="{{ $room->name }}">
+                            @endif
+                        </div>
+                        <div class="p-4">
+                            <h3 class="font-bold text-slate-900">{{ $room->name }}</h3>
+                            <p class="text-primary font-bold mt-1">${{ number_format($room->price, 0) }} <span class="text-sm font-normal text-slate-400">/ night</span></p>
+                        </div>
+                    </a>
+                @endforeach
+            </div>
+        @else
+            <div class="text-center py-16 bg-slate-50 rounded-2xl border border-slate-100">
+                <i class="fa-solid fa-bed text-4xl text-slate-300 mb-4"></i>
+                <p class="text-slate-500">No rooms available at the moment.</p>
+            </div>
+        @endif
     </section>
+
 
     <!-- ===================== FEATURES ===================== -->
     <section class="bg-slate-50 py-20">

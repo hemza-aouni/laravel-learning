@@ -4,15 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Models\Tenant;
 
+/**
+ * @deprecated استخدم TenantController@preview بدلاً منه
+ * تم الإبقاء عليه مؤقتاً للتوافق مع أي روابط قديمة
+ */
 class TenantFrontController extends Controller
 {
     public function show($id)
     {
-        $tenant = Tenant::findOrFail($id);
-
-        // يمكن لاحقاً جلب الغرف والمحتوى من قاعدة البيانات
-        // $rooms = $tenant->rooms()->where('is_active', true)->get();
-
-        return view('tenant.front-user', compact('tenant'));
+        // توجيه لنفس المنطق الجديد
+        return app(TenantController::class)->preview($id);
     }
 }

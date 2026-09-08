@@ -3,14 +3,28 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Room extends Model
 {
-    protected $fillable = ['room_number', 'type', 'price_per_night', 'status'];
+    protected $fillable = [
+        'tenant_id', 'name', 'type', 'room_number', 'description',
+        'price', 'currency', 'capacity', 'image',
+        'is_active', 'sort_order',
+    ];
 
-    public function bookings(): HasMany
+    protected $casts = [
+        'price'     => 'decimal:2',
+        'is_active' => 'boolean',
+        'capacity'  => 'integer',
+    ];
+
+    public function scopeActive($query)
     {
-        return $this->hasMany(Booking::class);
+        return $query->where('is_active', true);
+    }
+
+    public function scopeForTenant($query, string $tenantId)
+    {
+        return $query->where('tenant_id', $tenantId);
     }
 }

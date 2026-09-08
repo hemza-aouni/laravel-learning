@@ -10,7 +10,6 @@ use App\Models\MenuItem;
 use App\Models\Setting;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\TenantFrontController;
-use App\Http\Controllers\TenantController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ArticleController;
 use App\Http\Controllers\Admin\PageController;
@@ -43,9 +42,12 @@ Route::post('/register-hotel', function (Request $request) {
     return redirect()->to('/hotel/' . $request->subdomain);
 });
 
-Route::get('/hotel/{id}', [TenantController::class, 'dashboard']);
+Route::get('/hotel/{id}', function ($id) {
+    $tenant = Tenant::findOrFail($id);
+    return view('tenant.dashboard', compact('tenant'));
+});
 
-Route::get('/hotel/{id}/preview', [TenantController::class, 'preview']);
+Route::get('/hotel/{id}/preview', [TenantFrontController::class, 'show']);
 
 // -------- Public Blog --------
 Route::get('/blog', function () {
@@ -289,10 +291,3 @@ Route::get('/checkout/success', [CheckoutController::class, 'success'])->name('c
 Route::post('/webhooks/stripe', [StripeWebhookController::class, 'handle'])->name('webhooks.stripe');
 Route::post('/webhooks/paypal', [PaypalWebhookController::class, 'handle'])->name('webhooks.paypal');
 Route::post('/webhooks/lemonsqueezy', [LemonSqueezyWebhookController::class, 'handle'])->name('webhooks.lemonsqueezy');
-
-// ========== Tenant Rooms CRUD ==========
-Route::post('/hotel/{id}/rooms', [TenantController::class, 'storeRoom']);
-Route::put('/hotel/{id}/rooms/{roomId}', [TenantController::class, 'updateRoom']);
-Route::delete('/hotel/{id}/rooms/{roomId}', [TenantController::class, 'destroyRoom']);
-
-// test

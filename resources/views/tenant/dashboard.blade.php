@@ -55,6 +55,12 @@
 
         <!-- Main Content Area -->
         <main class="flex-1 overflow-y-auto p-4 md:p-8">
+            @if(session('success'))
+                <div class="bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 p-4 rounded-2xl mb-6 text-sm flex items-center space-x-3">
+                    <i class="fa-solid fa-circle-check"></i>
+                    <span>{{ session('success') }}</span>
+                </div>
+            @endif
             
             <!-- Top Header with Eye Preview Icon -->
             <div class="flex flex-col sm:flex-row justify-between items-center mb-8 bg-slate-900 border border-slate-800 p-4 rounded-2xl gap-4">
@@ -125,49 +131,121 @@
                 </div>
             </div>
 
-            <!-- Rooms Management Section (إضافة، حذف، وعرض الطلبات) -->
+            
+            <!-- Rooms Management Section -->
             <div id="rooms" class="bg-slate-900 border border-slate-800 p-6 md:p-8 rounded-2xl mb-8">
                 <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
                     <div>
                         <h2 class="text-xl font-bold">Rooms & Bookings Management</h2>
-                        <p class="text-slate-400 text-sm">Add new suites, remove rooms, and review incoming guest requests.</p>
+                        <p class="text-slate-400 text-sm">Add, edit or remove rooms. They appear automatically on your public website.</p>
                     </div>
-                    <button onclick="alert('Open Add Room Modal')" class="bg-indigo-600 hover:bg-indigo-500 text-white px-4 py-2.5 rounded-xl text-sm font-semibold transition flex items-center space-x-2">
+                    <button onclick="document.getElementById('add-room-form').classList.toggle('hidden')" class="bg-indigo-600 hover:bg-indigo-500 text-white px-4 py-2.5 rounded-xl text-sm font-semibold transition flex items-center space-x-2">
                         <i class="fa-solid fa-plus"></i>
                         <span>Add New Room</span>
                     </button>
                 </div>
 
-                <!-- قائمة الغرف والطلبات الحالية -->
+                <!-- Add Room Form -->
+                <div id="add-room-form" class="hidden mb-8 bg-slate-950 border border-slate-800 rounded-2xl p-6 space-y-4">
+                    <h3 class="font-bold text-sm text-indigo-400">Add New Room</h3>
+                    <form action="/hotel/{{ $tenant->id }}/rooms" method="POST" enctype="multipart/form-data" class="space-y-4">
+                        @csrf
+                        <div class="grid md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-400 mb-1">Room Name</label>
+                                <input type="text" name="name" required placeholder="e.g. Deluxe Ocean Suite" class="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-indigo-500">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-400 mb-1">Type</label>
+                                <select name="type" class="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-3 text-white text-sm">
+                                    <option value="Standard">Standard</option>
+                                    <option value="Deluxe">Deluxe</option>
+                                    <option value="Suite">Suite</option>
+                                    <option value="Presidential">Presidential</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="grid md:grid-cols-3 gap-4">
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-400 mb-1">Price / Night ($)</label>
+                                <input type="number" name="price" step="0.01" required placeholder="120" class="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-3 text-white text-sm">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-400 mb-1">Capacity (Guests)</label>
+                                <input type="number" name="capacity" value="2" min="1" class="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-3 text-white text-sm">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-400 mb-1">Image</label>
+                                <input type="file" name="image" accept="image/*" class="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-3 text-white text-sm">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-400 mb-1">Description</label>
+                            <textarea name="description" rows="2" placeholder="Short description..." class="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-3 text-white text-sm"></textarea>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <label class="flex items-center space-x-2 text-sm text-slate-300">
+                                <input type="checkbox" name="is_active" value="1" checked class="rounded bg-slate-900 border-slate-700">
+                                <span>Active (show on website)</span>
+                            </label>
+                            <button type="submit" class="bg-emerald-600 hover:bg-emerald-500 text-white font-semibold px-6 py-2.5 rounded-xl text-sm transition">Save Room</button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Rooms List -->
                 <div class="overflow-x-auto">
                     <table class="w-full text-left text-sm text-slate-300">
                         <thead class="bg-slate-950 text-xs uppercase text-slate-400 border-b border-slate-800">
                             <tr>
-                                <th class="p-4">Room Name / Type</th>
+                                <th class="p-4">Room</th>
+                                <th class="p-4">Type</th>
                                 <th class="p-4">Price / Night</th>
+                                <th class="p-4">Capacity</th>
                                 <th class="p-4">Status</th>
                                 <th class="p-4">Actions</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-slate-800">
-                            <tr>
-                                <td class="p-4 font-semibold text-white">Deluxe Ocean Suite #101</td>
-                                <td class="p-4 text-indigo-400 font-bold">$180</td>
-                                <td class="p-4"><span class="bg-emerald-500/10 text-emerald-400 text-xs px-2.5 py-1 rounded-full">Available</span></td>
-                                <td class="p-4 space-x-2">
-                                    <button onclick="alert('Room edited!')" class="text-indigo-400 hover:text-indigo-300"><i class="fa-solid fa-pen"></i></button>
-                                    <button onclick="alert('Room deleted!')" class="text-rose-400 hover:text-rose-300"><i class="fa-solid fa-trash"></i></button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="p-4 font-semibold text-white">Executive Royal Room #204</td>
-                                <td class="p-4 text-indigo-400 font-bold">$120</td>
-                                <td class="p-4"><span class="bg-amber-500/10 text-amber-400 text-xs px-2.5 py-1 rounded-full">Booked / Request</span></td>
-                                <td class="p-4 space-x-2">
-                                    <button onclick="alert('Room edited!')" class="text-indigo-400 hover:text-indigo-300"><i class="fa-solid fa-pen"></i></button>
-                                    <button onclick="alert('Room deleted!')" class="text-rose-400 hover:text-rose-300"><i class="fa-solid fa-trash"></i></button>
-                                </td>
-                            </tr>
+                            @forelse($rooms ?? [] as $room)
+                                <tr>
+                                    <td class="p-4">
+                                        <div class="flex items-center space-x-3">
+                                            @if($room->image)
+                                                <img src="{{ asset($room->image) }}" class="w-12 h-12 rounded-lg object-cover" alt="">
+                                            @else
+                                                <div class="w-12 h-12 bg-slate-800 rounded-lg flex items-center justify-center text-slate-600">
+                                                    <i class="fa-solid fa-bed"></i>
+                                                </div>
+                                            @endif
+                                            <span class="font-semibold text-white">{{ $room->name }}</span>
+                                        </div>
+                                    </td>
+                                    <td class="p-4 text-slate-400">{{ $room->type ?? '-' }}</td>
+                                    <td class="p-4 text-indigo-400 font-bold">${{ number_format($room->price, 2) }}</td>
+                                    <td class="p-4">{{ $room->capacity }} Guests</td>
+                                    <td class="p-4">
+                                        @if($room->is_active)
+                                            <span class="bg-emerald-500/10 text-emerald-400 text-xs px-2.5 py-1 rounded-full">Active</span>
+                                        @else
+                                            <span class="bg-slate-700 text-slate-400 text-xs px-2.5 py-1 rounded-full">Hidden</span>
+                                        @endif
+                                    </td>
+                                    <td class="p-4">
+                                        <form action="/hotel/{{ $tenant->id }}/rooms/{{ $room->id }}" method="POST" onsubmit="return confirm('Delete this room?');" class="inline">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="text-rose-400 hover:text-rose-300"><i class="fa-solid fa-trash"></i></button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="6" class="p-8 text-center text-slate-500">
+                                        No rooms yet. Click "Add New Room" to create your first room.
+                                    </td>
+                                </tr>
+                            @endforelse
                         </tbody>
                     </table>
                 </div>
