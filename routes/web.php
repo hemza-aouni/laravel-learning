@@ -296,3 +296,7 @@ Route::put('/hotel/{id}/rooms/{roomId}', [TenantController::class, 'updateRoom']
 Route::delete('/hotel/{id}/rooms/{roomId}', [TenantController::class, 'destroyRoom']);
 
 // test
+
+Route::post('/hotel/{id}/bookings', [TenantController::class, 'storeBooking']);
+Route::put('/hotel/{id}/bookings/{bookingId}/status', [TenantController::class, 'updateBookingStatus']);
+Route::delete('/hotel/{id}/bookings/{bookingId}', [TenantController::class, 'destroyBooking']);
